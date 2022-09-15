@@ -8,6 +8,7 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJl
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
+  const [cartstotal, setCartsTotal] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getCarts = async () => {
@@ -19,6 +20,7 @@ const Cart = () => {
       })
       .then((response) => {
         setCarts(response.data.data.products);
+        setCartsTotal(response.data.data);
         // console.log(setCarts)
       })
       .catch((error) => {
@@ -77,15 +79,15 @@ const Cart = () => {
       <tbody>
         <tr>
           <td>Total Order Product:</td>
-          {/* <td>{total_order_product}</td> */}
+          <td>{cartstotal.total_order_product}</td>
         </tr>
         <tr>
           <td>Shipping:</td>
           <td>Free</td>
         </tr>
         <tr>
-          <td>Grand Total: </td>
-          {/* <td>{grand_total}</td> */}
+          <td>Grand Total:</td>
+          <td>Rp. {cartstotal.grand_total}</td>
         </tr>
       </tbody>
     </Table>

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import axios from "axios";
 import CardProducts from "./CardProducts";
 // import { Button } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co';
+
 const Product = () => {
 
     const navigate = useNavigate();
-    // const location = useLocation()
+    
+
     const [products, setProducts] = useState([]);
-    // const [postcart, setPostCart] = useState([])
-    // const [filter, setFilter] = useState('');
 
   const getProducts = async () => {
     await axios
@@ -35,24 +36,29 @@ const Product = () => {
         price: item.price,
         category_name: item.category_name,
         stock: item.stock,
-        description: item.description 
+        description: item.description, 
       },
     });
   };
 
-  const handlePostCart = async () => {
+  const handlePostCart = async (data) => {
     await axios
-      .post(
-        "https://virtserver.swaggerhub.com/vizucode/E-Commerce/1.0.2/carts"
-      )
+      .post("https://virtserver.swaggerhub.com/vizucode/E-Commerce/1.0.2/carts", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data : {
+            "product_id": `${data.id}`
+          }
+        })
+      
       .then((response) => {
-        // handlePostCart(response.data.data);
-        // postcart.push(item);
-        console.log("coba:", response)
+        console.log(response)
       })
       .catch((error) => {
         console.log(error);
       });
+      navigate("/carts");
   };
     
     // console.log(postcart);
@@ -63,18 +69,11 @@ const Product = () => {
     handlePostCart();
   }, []);
 
-// const filterProduct = (cat) => {
-//     const updatedList = products.filter((x) => x.category_name === cat);
-//     setFilter(updatedList)
-// }
 
   return (
     <div>
         <div className="container-fluid">
         <div className="row justify-content-around d-flex">
-            {/* <Button onClick={() => setFilter(products)}>All</Button>
-            <Button onClick={() => filterProduct("Television")}>Television</Button>
-            <Button onClick={() => filterProduct("laptop")}>laptop</Button> */}
           {products.map((item) => {
             return (
               <CardProducts

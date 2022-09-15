@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "../components/NavbarComp";
 import '../components/style/ProductStyle.css'
 import Product from "../components/Product";
+import Footer from "../components/Footer";
 
 
 const Home = () => {
@@ -23,8 +24,9 @@ const Home = () => {
       <div>
         <Product/>
       </div>
-
-      
+     <div>
+      <Footer/>
+     </div>
     </div>
   );
 };
