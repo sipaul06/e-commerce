@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import CartComp from "../components/CartComp";
 import axios from "axios";
 import NavbarComp from "../components/NavbarComp";
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap';
+import '../components/style/ProductStyle.css';
+import Footer from '../components/Footer'
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co';
 
@@ -10,6 +12,7 @@ const Cart = () => {
   const [carts, setCarts] = useState([]);
   const [cartstotal, setCartsTotal] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(1)
 
   const getCarts = async () => {
     await axios
@@ -47,8 +50,54 @@ const Cart = () => {
       .catch((error) => {
         console.log(error);
       })
-    
   }
+
+ const incrementItem = (id) => {
+  axios .put(`https://virtserver.swaggerhub.com/vizucode/E-Commerce/1.0.2/cart/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data : {
+      "qty": `${setCount(count+1)}`
+    },
+  })
+  .then((response) => {
+    console.log(response)
+  })
+  
+  .catch((error) => {
+    console.log(error);
+  })
+   // setCount(count+1)
+ }
+
+ const decrementItem = (id) => {
+  axios .put(`https://virtserver.swaggerhub.com/vizucode/E-Commerce/1.0.2/cart/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data : {
+      "qty": `${setCount(count+1)}`
+    },
+  })
+  .then((response) => {
+    console.log(response)
+  })
+  
+  .catch((error) => {
+    console.log(error);
+  })
+
+//   if (count>0) {
+//     setCount(count-1) 
+//   }
+//     else {
+//       return (count=0)
+//     }
+ }
+
+
+
 
   useEffect(() => {
     getCarts();
@@ -63,6 +112,9 @@ const Cart = () => {
       <div>
         <NavbarComp/>
       </div>
+      <div className="container p-5 ">
+        <div className="row justify-content-center">
+        <div  className='col-xl-8'>
       {carts.map((item) => {
         return(
           <CartComp 
@@ -71,15 +123,23 @@ const Cart = () => {
           product_price={item.product_price}
           qty={item.qty}
           subtotal={item.subtotal}
-          onClickDelete={() => handleDeleteCart(item.cart_id)}/>
+          onClickDelete={() => handleDeleteCart(item.cart_id)}
+          onClickIncrement={() => incrementItem(item.cart_id)}
+          onClickDecrement={() => decrementItem(item.cart_id)}/>
         );
       })}
-      <div className="container">
-      <Table >
+      </div>
+      </div>
+      </div>
+      
+      <div className="container pb-5">
+        <div className="row justify-content-center">
+        <div className="col-xl-6 ">
+        <Table>
       <tbody>
         <tr>
           <td>Total Order Product:</td>
-          <td>{cartstotal.total_order_product}</td>
+          <td >{cartstotal.total_order_product}</td>
         </tr>
         <tr>
           <td>Shipping:</td>
@@ -92,8 +152,10 @@ const Cart = () => {
       </tbody>
     </Table>
     <Button>Order</Button>
+        </div>
+        </div>
       </div>
-      
+      <Footer/>
     </div>
   );
 };

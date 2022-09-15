@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom'
 import NavbarComp from '../components/NavbarComp'
 import {Table, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../components/style/ProductStyle.css'
+import '../components/style/ProductStyle.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 const Detail = () => {
   const location = useLocation();
@@ -13,13 +15,14 @@ const Detail = () => {
       <div>
         <NavbarComp/>
       </div>
-      <div className="row d-flex">
-      <div className="col d-grid gap-2">
+      <div className='container'>
+      <div className="row d-flex pt-5">
+      <div className="col-lg-5 col-10 d-grid gap-2">
         <img src={location.state.image_url} className="img-fluid"/>
         <p>Stock: {location.state.stock}</p>
-        <Button size="lg">Cart</Button>
+        <Button size="lg"><FontAwesomeIcon icon={faCartShopping} /></Button>
       </div>
-      <div className="col">
+      <div className="col-lg-5 col-10">
       <Table>
       <tbody>
         <tr>
@@ -38,7 +41,7 @@ const Detail = () => {
     </Table>
       </div>
       </div>
-      
+      </div>
     </div>
   )
 }

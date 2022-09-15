@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom";
 import axios from "axios";
 import CardProducts from "./CardProducts";
-// import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co';
@@ -13,6 +13,7 @@ const Product = () => {
     
 
     const [products, setProducts] = useState([]);
+    const [page, setPage] = useState([])
 
   const getProducts = async () => {
     await axios
@@ -21,6 +22,7 @@ const Product = () => {
       )
       .then((response) => {
         setProducts(response.data.data);
+        setPage(response.data)
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +63,6 @@ const Product = () => {
       navigate("/carts");
   };
     
-    // console.log(postcart);
   
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const Product = () => {
   return (
     <div>
         <div className="container-fluid">
-        <div className="row justify-content-around d-flex">
+        <div className="row justify-content-around d-flex p-5">
           {products.map((item) => {
             return (
               <CardProducts
@@ -85,7 +86,15 @@ const Product = () => {
               />
             );
           })}
+          
         </div>
+        {/* <div className="container ">
+          <div className='row d-flex'>
+          <Button className='col btn-light'>Previous</Button>
+          <div className='col align-item-center'><p>{page.current_page}</p></div>
+          <Button className='col btn-light'>Next</Button>
+          </div>
+        </div> */}
       </div>
     </div>
   )
