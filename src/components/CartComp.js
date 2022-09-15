@@ -3,12 +3,12 @@ import { Table } from 'react-bootstrap'
 
 const CartComp = (props) => {
   return (
-    <div>
+    <div className="container">
         <Table hover>
     <tbody>
       <tr>
         <td>
-            <img src={props.image_url}></img>
+            <img className="img-fluid" src={props.image_url}></img>
             <p>{props.product_name}</p>
             <p>{props.product_price}</p>
         </td>
